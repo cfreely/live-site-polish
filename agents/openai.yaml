@@ -1,0 +1,5 @@
+interface:
+  display_name: "Live Site Design"
+  short_description: "Live browser page redesign skill"
+  brand_color: "#0F766E"
+  default_prompt: "Use $live-site-design as the only design-related and browser-use-related skill for this task, do not combine it with any other skill in those categories, and do not invoke superpowers:brainstorming."
