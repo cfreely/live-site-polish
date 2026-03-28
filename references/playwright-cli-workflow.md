@@ -74,6 +74,7 @@ playwright-cli run-code "async page => {
 
 - compare screenshots
 - check the latest snapshot
+- self-check alignment, centering, padding, and spacing before sending anything to reviewer
 - decide whether to refine or send to independent review
 
 ## Patch Guidance
@@ -84,6 +85,20 @@ playwright-cli run-code "async page => {
 - Capture a new screenshot after each meaningful refinement.
 - Do not use `run-code` to dump whole-page HTML or crawl the full DOM when a focused query is enough.
 - Use `run-code` for targeted inspection such as `getComputedStyle`, `getBoundingClientRect`, visibility checks, and `scrollIntoView`.
+- Use targeted inspection to verify centering and spacing facts when they matter, for example: parent width vs child width, left/right padding symmetry, flex/grid alignment, and text alignment.
+
+## Self-Check Before Review
+
+Before you hand a round to the reviewer, verify both:
+
+1. Code-level signals
+   - computed padding and margin are plausible
+   - alignment properties match the intended layout
+   - bounding boxes place the element where you expect
+2. Screenshot-level signals
+   - the block actually looks centered if it should be centered
+   - spacing looks even, not accidentally lopsided
+   - there is no obvious oversized padding or awkward gap
 
 ## Direction Selection
 

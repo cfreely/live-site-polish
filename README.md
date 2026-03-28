@@ -1,6 +1,6 @@
-# Live Site Design
+# Live Site Polish
 
-`live-site-design` is a skill for redesigning or polishing a live web page directly in the browser and leaving clear artifacts for a downstream code agent.
+`live-site-polish` is a skill for redesigning or polishing a live web page directly in the browser and leaving clear artifacts for a downstream code agent.
 
 This skill is developed by uxagent.top and made available under a free open license.
 

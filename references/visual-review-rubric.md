@@ -26,18 +26,22 @@ Evaluation order:
 
 1. Describe what changed visually
 2. Check implementation correctness
-3. Check design quality
-4. Check goal achievement
-5. Return a verdict
-6. In the same reviewer session, run one challenge follow-up that asks whether the current verdict was too strict or too lenient and whether any global issue was missed
+3. Check alignment and spacing quality
+4. Check overall design quality
+5. Check goal achievement
+6. Return a verdict
+7. In the same reviewer session, run one challenge follow-up asking whether the current verdict was too strict or too lenient and whether any global issue was missed
 
 ## Hard Fail Conditions
 
-Return at least `revise_major` if any of these are true:
+Return `bad` if any of these are true:
 
 - the after screenshot is effectively unchanged
 - important content became hidden, clipped, overlapped, or unreadable
 - the patch visibly breaks nearby layout
+- the edited block is visibly off-center when it should be centered
+- alignment between related elements is visibly inconsistent
+- padding or spacing is obviously wrong enough to read as a mistake rather than a design choice
 - injected copy does not match the page language
 - the solution clashes strongly with the page's visual system
 
@@ -57,9 +61,9 @@ Use exactly these fields:
     ]
   },
   "design_quality": {
-    "status": "strong | acceptable | weak",
+    "status": "excellent | acceptable | bad",
     "notes": [
-      "Comments on hierarchy, spacing, typography, color, cohesion"
+      "Comments on hierarchy, spacing, padding, centering, alignment, color, and cohesion"
     ]
   },
   "goal_achievement": {
@@ -68,9 +72,15 @@ Use exactly these fields:
       "Whether the user's request was actually satisfied"
     ]
   },
-  "verdict": "pass | revise_minor | revise_major"
+  "verdict": "excellent | acceptable | bad"
 }
 ```
+
+## Verdict Meaning
+
+- `excellent`: strong result, no meaningful reason to keep iterating
+- `acceptable`: usable result, but still has polish or minor coherence issues
+- `bad`: serious issue remains in implementation, alignment, spacing, or overall fit
 
 ## Reviewer Prompt Shape
 

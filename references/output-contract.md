@@ -8,8 +8,8 @@ Put all final outputs under one obvious directory. The next code agent should no
 
 Good examples:
 
-- `live-site-design-output/homepage-hero-refresh/`
-- `output/live-site-design/2026-03-26-checkout-cta/`
+- `live-site-polish-output/homepage-hero-refresh/`
+- `output/live-site-polish/2026-03-26-checkout-cta/`
 - `tmp/site-redesign-pass-2/`
 
 ## What Must Exist Somewhere In That Directory

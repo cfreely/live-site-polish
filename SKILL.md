@@ -1,5 +1,5 @@
 ---
-name: live-site-design
+name: live-site-polish
 description: Use when redesigning or polishing an accessible live website directly in the browser, especially when the goal is to produce high-quality before/after screenshots plus a reference patch script for a downstream code agent. If this skill is selected, do not also invoke any other design-related or browser-use-related skills for the same task.
 version: 0.1.0
 metadata:
@@ -11,7 +11,7 @@ metadata:
     emoji: "🖌️"
 ---
 
-# Live Site Design
+# Live Site Polish
 
 ## Overview
 
@@ -56,6 +56,8 @@ This skill uses two roles:
 5. Implement only the chosen direction live:
    - Prefer one strong direction over multiple half-finished variants.
    - Keep changes static and reversible: DOM structure, copy, spacing, color, typography, hierarchy.
+   - After each meaningful patch, self-check both the code and the screenshot before moving on.
+   - Specifically inspect centering, alignment, spacing rhythm, obvious padding mistakes, and whether the edited block still sits correctly inside its parent container.
 6. Freeze review evidence:
    - Capture a clean `before` and current `after` screenshot.
    - If the target includes a carousel, rotating banner, tabset, accordion, video poster, timer, or other dynamic region, freeze both screenshots to the same UI state before review.
@@ -67,8 +69,12 @@ This skill uses two roles:
    - Give the reviewer only the frozen evidence directory and the rubric from `references/visual-review-rubric.md`.
    - Reuse that same reviewer for later rounds of the same task instead of spawning a brand new reviewer every time.
    - After each review, run a challenge follow-up in the same reviewer session so it reconsiders the verdict holistically.
-8. If review verdict is not `pass`, iterate in the designer context and re-run review with the same reviewer session.
-9. Only after the reviewer returns `pass`, promote the needed files from `<output>/tmp/` into the final output directory layout and clean the leftover temporary files.
+8. Interpret the review result:
+   - `excellent`: stop iterating
+   - `acceptable`: continue only if total review count is 3 or less; otherwise stop
+   - `bad`: continue unless you judge the task is not realistically solvable or total review count exceeds 5
+9. If the policy says continue, iterate in the designer context and re-run review with the same reviewer session.
+10. When iteration stops, promote the needed files from `<output>/tmp/` into the final output directory layout and clean the leftover temporary files.
 
 ## Role Split
 
@@ -124,6 +130,7 @@ The reviewer outputs only a structured verdict and critique.
 - Default temporary workspace: `<output>/tmp/`. Use it from the start of the task, not only at the end.
 - If a patch grows beyond 20 lines of JavaScript, move it into a standalone `.js` file before running it. Avoid long inline shell-quoted snippets that are fragile under escaping.
 - If you are not reloading the page before a new patch round, either clean up previously injected nodes/styles first or be explicit that you are intentionally building on top of the already-mutated state.
+- Treat alignment issues as real defects. A block that should be centered but is visibly off-center, or a container with obviously wrong padding, is not "close enough".
 
 ## Browser-Side JavaScript
 
@@ -149,6 +156,8 @@ For iterative patching:
 - use dedicated style tags with stable IDs when injecting CSS
 - before starting a fresh attempt without reload, remove or overwrite old injected markers instead of silently stacking duplicate layers
 - if you intentionally keep prior injections and refine on top of them, treat the current mutated page as the new baseline and review it accordingly
+- use small inspection snippets when needed to verify alignment-related facts, such as computed padding, margins, text alignment, flex/grid justification, and bounding-box position
+- compare the screenshot against the intended visual relationship, not just whether the code "looks reasonable"
 
 ## Quality Bar
 
@@ -157,9 +166,11 @@ The final result must satisfy all of these:
 - The target area is visually improved in a concrete, user-visible way.
 - The layout is coherent with the surrounding design language.
 - The modified content is readable, aligned, and not overlapping nearby content.
+- Elements that should be centered or aligned are actually centered or aligned in the rendered screenshot.
+- Spacing and padding look intentional rather than accidentally uneven or oversized.
 - Mobile/desktop implications are noted when they matter, even if only one viewport was edited.
 - The final screenshot is clean: no open dev overlays, selection highlights, or transient popups.
-- An isolated visual reviewer has accepted the result with a `pass` verdict, or the user explicitly waived independent review.
+- An isolated visual reviewer has rated the result `excellent`, or has rated it `acceptable` after the review loop reached its stopping condition, or the user explicitly waived independent review.
 
 ## Review Contract
 
@@ -167,25 +178,32 @@ The independent reviewer must return:
 
 - `objective_observations`: what visibly changed
 - `implementation_correctness`: any breakage, overlap, clipping, or no-op concerns
-- `design_quality`: fit with hierarchy, spacing, typography, color, and surrounding language
+- `design_quality`: fit with hierarchy, spacing, typography, color, surrounding language, and alignment quality
 - `goal_achievement`: whether the user request was actually met
-- `verdict`: one of `pass`, `revise_minor`, `revise_major`
+- `verdict`: one of `excellent`, `acceptable`, `bad`
 
 Default policy:
 
-- `pass`: write the final handoff outputs and finish
-- `revise_minor`: iterate once or twice on the same direction, then review again
-- `revise_major`: reconsider the direction, then either revise the chosen direction substantially or return to the 3-direction step
+- `excellent`: stop iterating and finish
+- `acceptable`: continue only if total review count is 3 or less; otherwise stop and finish with the current best result
+- `bad`: continue unless you judge the task is not realistically solvable or total review count exceeds 5
+
+Iteration guidance:
+
+- `acceptable` usually means the direction is basically right but still has polish issues
+- `bad` usually means there are serious implementation, alignment, spacing, or strategy problems
+- if the result stays `bad` across multiple rounds and the path forward is unclear, stop rather than thrash
 
 Reviewer process for one task:
 
 1. First review starts in one fresh reviewer context
 2. Every later round for that task reuses the same reviewer context
 3. After each verdict, issue a challenge follow-up in that same context to catch both false negatives and false positives
+4. Track the total review count for the task and apply the stopping rules above
 
 ## Output Contract
 
-Always leave the final outputs under one clear directory, for example `live-site-design-output/<task-or-date>/`.
+Always leave the final outputs under one clear directory, for example `live-site-polish-output/<task-or-date>/`.
 
 Treat that directory as the task workspace from the beginning. Create `<output>/tmp/` immediately and store temporary artifacts there during the run.
 
