@@ -19,6 +19,8 @@ Redesign the live page in the browser first, not in source code. Use this skill 
 
 This skill assumes `playwright-cli` is available. Treat it as the default browser control surface for opening a page, inspecting state, taking screenshots, and applying temporary DOM/CSS changes.
 
+When this skill is active, all browser interaction for the task must go through `playwright-cli`. Do not switch to any other browser automation tool, browser MCP, visual browser helper, or ad-hoc browser control path.
+
 If this skill is active for a task, do not stack any other design-related or browser-use-related skill on top of it. Use one controlling skill to avoid conflicting prompts, duplicate review loops, or mismatched output expectations.
 
 If this skill is active for a task, explicitly do not invoke `superpowers:brainstorming`.
@@ -118,6 +120,7 @@ The reviewer outputs only a structured verdict and critique.
 
 ## Working Rules
 
+- Browser interaction must use `playwright-cli` only. Do not use any other browser tool for the same task.
 - Use `playwright-cli open` once at the start of the session, then keep all commands attached to that browser session.
 - Default to `playwright-cli open` in headless mode. If you are blocked on login, CAPTCHA, or another manual takeover point, reopen with `playwright-cli open --headed` and explicitly invite the user to take over.
 - Preserve page language. Injected UI text must match the language already used on the page.

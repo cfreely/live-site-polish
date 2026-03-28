@@ -2,6 +2,8 @@
 
 Use `playwright-cli` as the default control plane for live page editing.
 
+For this skill, `playwright-cli` is not just preferred, it is required. Do not mix in other browser tools during the same task.
+
 If `playwright-cli` actions start timing out, try:
 
 ```bash
