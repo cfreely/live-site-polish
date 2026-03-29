@@ -118,7 +118,7 @@ Do not build 3 variants in the page at once.
 Use clean captures:
 
 - `before`: after exploration and popup cleanup, before any live modifications
-- `after`: after the latest refinement pass or after the final approved version
+- `after`: after the latest refinement round or after the final accepted version
 
 If the target area is below the fold, center it in the viewport before each capture so the comparison is obvious.
 
@@ -169,4 +169,4 @@ playwright-cli run-code "async page => {
 ## Output Timing
 
 - Temporary screenshots, draft notes, and draft scripts should live under `<output>/tmp/` during iteration.
-- Final handoff files should be organized only after independent review returns `pass`.
+- Final handoff files should be organized only after the review loop reaches its stopping condition.

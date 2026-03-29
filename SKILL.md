@@ -128,8 +128,8 @@ The reviewer outputs only a structured verdict and critique.
 - Do not edit text baked into images, videos, canvases, or inaccessible overlays.
 - Do not add fake interactivity for the handoff. The reference patch may style buttons or layout, but should avoid event listeners unless the user explicitly asks for interactive behavior.
 - Keep the final state implementation-oriented. Another code agent should be able to infer the intended production change from the output directory without replaying your whole exploration.
-- Treat the reviewer as authoritative on visual quality. If the reviewer says `revise_major`, do not rationalize it away.
-- Do not write polished final output files too early. Temporary review evidence is fine; final handoff files should be organized after a passing review.
+- Treat the reviewer as authoritative on visual quality. If the reviewer returns `bad`, do not rationalize it away.
+- Do not write polished final output files too early. Temporary review evidence is fine; final handoff files should be organized only after the review loop reaches its stopping condition.
 - Default temporary workspace: `<output>/tmp/`. Use it from the start of the task, not only at the end.
 - If a patch grows beyond 20 lines of JavaScript, move it into a standalone `.js` file before running it. Avoid long inline shell-quoted snippets that are fragile under escaping.
 - If you are not reloading the page before a new patch round, either clean up previously injected nodes/styles first or be explicit that you are intentionally building on top of the already-mutated state.

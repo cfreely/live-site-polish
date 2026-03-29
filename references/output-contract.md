@@ -10,7 +10,7 @@ Good examples:
 
 - `live-site-polish-output/homepage-hero-refresh/`
 - `output/live-site-polish/2026-03-26-checkout-cta/`
-- `tmp/site-redesign-pass-2/`
+- `tmp/site-redesign-round-2/`
 
 ## What Must Exist Somewhere In That Directory
 
